@@ -13,7 +13,7 @@ const Category = () => {
       .get(`${process.env.NEXT_PUBLIC_API}/category/getallcategory`)
       .then((res) => {
         setCategories(res?.data?.data ?? [])
-        console.log("Categories:", res?.data?.data)
+        // console.log("Categories:", res?.data?.data)
         setLoading(false)
       })
       .catch((err) => {

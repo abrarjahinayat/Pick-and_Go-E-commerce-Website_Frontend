@@ -12,7 +12,7 @@ const Banner = () => {
       .get(`${process.env.NEXT_PUBLIC_API}/banner/getallbanner`)
       .then((res) => {
         setBanners(res?.data?.data ?? []);
-        console.log("Banners:", res?.data?.data);
+        // console.log("Banners:", res?.data?.data);
       })
       .catch((err) => {
         console.error("Banner Load Error:", err);

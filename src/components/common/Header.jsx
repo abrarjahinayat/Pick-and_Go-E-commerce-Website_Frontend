@@ -1,8 +1,18 @@
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
 import Link from 'next/link'
-import { ShoppingCart, Search, User, Heart, Menu } from 'lucide-react'
+import { useSelector } from 'react-redux'
+import { ShoppingCart, Search, User, Heart, Menu, LogOut } from 'lucide-react'
 
 const Header = () => {
+  const [showAccountMenu, setShowAccountMenu] = useState(false)
+  const user = useSelector((state) => state.user.value)
+
+  const handleLogout = () => {
+    // Add your logout logic here
+    console.log('Logging out...')
+  }
+
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
       {/* Top Bar */}
@@ -45,10 +55,50 @@ const Header = () => {
 
           {/* Right Icons */}
           <div className="flex items-center space-x-6">
-            <Link href="/account" className="hidden sm:flex items-center space-x-1 hover:text-blue-600 transition">
-              <User className="w-5 h-5" />
-              <span className="text-sm font-medium">Account</span>
-            </Link>
+            <div 
+              className="hidden sm:block relative"
+              onMouseEnter={() => setShowAccountMenu(true)}
+              onMouseLeave={() => setShowAccountMenu(false)}
+            >
+              <div className="flex items-center space-x-1 hover:text-blue-600 transition cursor-pointer">
+                <User className="w-5 h-5" />
+                <span className="text-sm font-medium">
+                  {user?.name || 'Account'}
+                </span>
+              </div>
+
+              {/* Dropdown Menu */}
+              {showAccountMenu && (
+                <div className="absolute right-0 mt-1.5 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50">
+                  {user?.name ? (
+                    // If user is logged in, show logout
+                    <button
+                      onClick={handleLogout}
+                      className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-blue-50 cursor-pointer hover:text-red-600 transition-colors flex items-center gap-2"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Logout
+                    </button>
+                  ) : (
+                    // If user is not logged in, show login and register
+                    <>
+                      <Link
+                        href="/login"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                      >
+                        Login
+                      </Link>
+                      <Link
+                        href="/register"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                      >
+                        Register
+                      </Link>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
 
             <Link href="/wishlist" className="hidden sm:block relative hover:text-blue-600 transition">
               <Heart className="w-5 h-5" />
@@ -77,9 +127,6 @@ const Header = () => {
           <div className="hidden md:flex items-center justify-center space-x-8 h-12">
             <Link href="/new-arrivals" className="text-sm font-medium hover:text-blue-600 transition">
               New Arrivals
-            </Link>
-            <Link href="/products" className="text-sm font-medium hover:text-blue-600 transition">
-             All Products
             </Link>
             <Link href="/men" className="text-sm font-medium hover:text-blue-600 transition">
               Men

@@ -14,7 +14,8 @@ const VerifyUser = ({children}) => {
             "token": token
         }
     }).then((res)=>{
-        console.log("User verified:", res.data)
+        // console.log("User verified:", res.data)
+        localStorage.setItem('token', JSON.stringify(res.data.token))
         dispatch(userinfo(res.data.data))
     }).catch((err)=>{
         console.error("User verification failed:", err)
