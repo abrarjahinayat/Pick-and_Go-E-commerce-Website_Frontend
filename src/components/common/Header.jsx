@@ -127,6 +127,9 @@ const Header = () => {
           <div className="hidden md:flex items-center justify-center space-x-8 h-12">
             <Link href="/new-arrivals" className="text-sm font-medium hover:text-blue-600 transition">
               New Arrivals
+            </Link> 
+            <Link href="/allproducts" className="text-sm font-medium hover:text-blue-600 transition">
+             All Products
             </Link>
             <Link href="/men" className="text-sm font-medium hover:text-blue-600 transition">
               Men

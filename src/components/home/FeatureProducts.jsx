@@ -196,7 +196,7 @@ const FeatureProducts = () => {
         {products.length > 0 && (
           <div className="text-center mt-12">
             <Link
-              href="/products"
+              href="/allproducts"
               className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold px-8 py-3 rounded-full hover:shadow-lg transform hover:scale-105 transition-all duration-300"
             >
               View All Products
