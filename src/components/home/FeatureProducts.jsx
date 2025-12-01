@@ -79,7 +79,7 @@ const FeatureProducts = () => {
             >
               {/* Product Image Container */}
               <div className="relative overflow-hidden bg-gray-100">
-                <Link href={`/product/${product?.slug || product?._id}`}>
+                <Link href={`/allproducts/${product?.slug || product?._id}`}>
                   <div className="relative h-80 w-full">
                     {product?.image ? (
                       <img
