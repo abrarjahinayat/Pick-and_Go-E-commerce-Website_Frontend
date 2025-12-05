@@ -56,8 +56,10 @@ const Page = () => {
                 ? product.price
                 : null,
             quantity: item.quantity,
+            variants: variants._id || null,
             size: variants.size || null,
             color: variants.color || null,
+            
             // backend didn't send stock; set a safe default
             stock: product.stock || 99,
           };
@@ -75,9 +77,10 @@ const Page = () => {
   }, [userId?._id]);
 
   const updateQuantity = (id, newQantity) => {
-
     console.log(id)
-    axios.patch(`${process.env.NEXT_PUBLIC_API}/cart/updatecart/${id.productId}`, {
+    axios.patch(`${process.env.NEXT_PUBLIC_API}/cart/updatecart/${userId?._id}`, {
+      product : id.productId,
+      variant: id.variants,
       quantity: newQantity,
     })
       .then((res) => {
