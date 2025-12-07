@@ -2,6 +2,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "@/components/redux/ReduxProvider";
 import VerifyUser from "@/components/verify/VerifyUser";
+import { Toaster } from "sonner";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -19,7 +20,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={poppins.className}>
         <ReduxProvider>
-          <VerifyUser>{children}</VerifyUser>
+          <VerifyUser>
+            {children}
+            <Toaster richColors position="top-center" /> {/* 🔥 Required */}
+          </VerifyUser>
         </ReduxProvider>
       </body>
     </html>

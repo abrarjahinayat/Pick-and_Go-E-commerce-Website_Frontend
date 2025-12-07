@@ -6,6 +6,7 @@ import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { userinfo } from '../../slices/userSlice'
 import { useRouter } from 'next/navigation'
+import { toast } from "sonner"
 const Page = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -53,28 +54,37 @@ const Page = () => {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    
-    if (!validateForm()) return
-    
-    setLoading(true)
-    
-    try {
-     axios.post(`${process.env.NEXT_PUBLIC_API}/auth/login`, formData).then((res) => {
-        console.log('Login successful:', res.data)
-        // Redirect or perform further actions here
-        localStorage.setItem('token', JSON.stringify(res.data.token))
-        dispatch(userinfo(res.data.data))
-        router.push('/')
-      })
-    } catch (error) {
-      console.error('Login error:', error)
-      setErrors({ submit: 'Something went wrong. Please try again.' })
-    } finally {
+const handleSubmit = async (e) => {
+  e.preventDefault()
+
+  if (!validateForm()) return
+  setLoading(true)
+
+  try {
+    const res = await axios.post(`${process.env.NEXT_PUBLIC_API}/auth/login`, formData)
+
+    // ❌ Show toast if login failed
+    if (!res.data.success) {
+      toast.error(res.data.message || "Invalid email or password")
       setLoading(false)
+      return
     }
+
+    // ✔ Success toast
+    toast.success("Login successful! Redirecting...")
+
+    localStorage.setItem("token", JSON.stringify(res.data.token))
+    dispatch(userinfo(res.data.data))
+    router.push("/")
+
+  } catch (error) {
+    toast.error(error?.response?.data?.message || "Something went wrong, try again!")
+    console.error(error)
+  } finally {
+    setLoading(false)
   }
+}
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
